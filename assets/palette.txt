@@ -1,0 +1,24 @@
+/* Coolors Exported Palette - https://coolors.co/2fd913-d97e13-ff0000-6ec85f */
+
+/* CSV */
+2fd913,d97e13,ff0000,6ec85f
+
+/* With # */
+#2fd913, #d97e13, #ff0000, #6ec85f
+
+/* Array */
+["2fd913","d97e13","ff0000","6ec85f"]
+
+/* Object */
+{"SGBUS green":"2fd913","Fulvous":"d97e13","Red":"ff0000","Mantis":"6ec85f"}
+
+/* Extended Array */
+[{"name":"SGBUS green","hex":"2fd913","rgb":[47,217,19],"cmyk":[78,0,91,15],"hsb":[112,91,85],"hsl":[112,84,46],"lab":[76,-73,72]},{"name":"Fulvous","hex":"d97e13","rgb":[217,126,19],"cmyk":[0,42,91,15],"hsb":[32,91,85],"hsl":[32,84,46],"lab":[61,29,65]},{"name":"Red","hex":"ff0000","rgb":[255,0,0],"cmyk":[0,100,100,0],"hsb":[0,100,100],"hsl":[0,100,50],"lab":[53,80,67]},{"name":"Mantis","hex":"6ec85f","rgb":[110,200,95],"cmyk":[45,0,53,22],"hsb":[111,53,78],"hsl":[111,49,58],"lab":[73,-47,44]}]
+
+/* XML */
+<palette>
+  <color name="SGBUS green" hex="2fd913" r="47" g="217" b="19" />
+  <color name="Fulvous" hex="d97e13" r="217" g="126" b="19" />
+  <color name="Red" hex="ff0000" r="255" g="0" b="0" />
+  <color name="Mantis" hex="6ec85f" r="110" g="200" b="95" />
+</palette>
