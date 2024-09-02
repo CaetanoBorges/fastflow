@@ -44,7 +44,7 @@
         <!-- Modal -->
         <div class="modal fade" id="pedidos" tabindex="-1"
             aria-labelledby="pedidosLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content modal-lg" style="border-radius: 0;">
                     <div class="modal-header">
                         <p class="modal-title" id="pedidosLabel"
@@ -83,8 +83,8 @@
     </body>
     <script>
     var loader = new debliwuiloader();
-    var notificacao = new debliwuinotificacao();
-    var menu = new debliwuimenu();
+    var notificacao = new debliwuinotificacao($);
+    var menu = new debliwuimenu(null,$);
 
     document.querySelector("body").append(loader);
     document.querySelector("body").append(notificacao);

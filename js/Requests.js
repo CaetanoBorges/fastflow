@@ -1,8 +1,8 @@
 var Requests = {
-    esse : this,
+    esse: this,
     "verProdutos": function () {
         var restaurante = localStorage.getItem("restaurante");
-        $.get(api + "/verProdutos.php",{restaurante:restaurante}).done(function (data) {
+        $.get(api + "/verProdutos.php", { restaurante: restaurante }).done(function (data) {
             console.log(data);
             var res = JSON.parse(data);
             if (res.ok) {
@@ -16,20 +16,24 @@ var Requests = {
         const hash = window.location.hash;
         var num = hash.split("#")[1];
         var restaurante = Funcoes.urlParam();
-        localStorage.setItem("restaurante",restaurante);
+        localStorage.setItem("restaurante", restaurante);
         this.verProdutos();
         $.get(api + "/entrar.php", { mesa: num, restaurante: restaurante }).done(function (data) {
             console.log(data);
-            var res = JSON.parse(data);
-            if (res.ok) {
-                notificacao.sms("Insira o nome para usar a mesa...");
-                localStorage.setItem("restaurante",restaurante);
-                loader.fechar();
-            } else {
-                console.error(hash);
-                
-                vaiTela("/mesaIndisponivel#"+restaurante);
-                loader.fechar();
+            try {
+                var res = JSON.parse(data);
+                if (res.ok) {
+                    notificacao.sms("Insira o nome para usar a mesa...");
+                    localStorage.setItem("restaurante", restaurante);
+                    loader.fechar();
+                } else {
+                    console.error(hash);
+
+                    vaiTela("/mesaIndisponivel#" + restaurante);
+                    loader.fechar();
+                }
+            } catch (error) {
+
             }
         })
     },
@@ -55,7 +59,7 @@ var Requests = {
                 localStorage.setItem("quando", res.payload.quando);
                 localStorage.setItem("nome", nome);
                 localStorage.setItem("fechado", "");
-                localStorage.setItem("restaurante",restaurante);
+                localStorage.setItem("restaurante", restaurante);
                 setTimeout(function () {
                     menu.shadowRoot.querySelector(".user p").innerHTML = nome + '<br> Mesa ' + num;
                 }, 1000)
@@ -75,24 +79,24 @@ var Requests = {
         setInterval(function () {
             var conta = localStorage.getItem("conta")
             var restaurante = localStorage.getItem("restaurante");
-            $.get(api + "/pullingPedido.php", { conta: conta, restaurante: restaurante}).done(function (data) {
-                
-                
+            $.get(api + "/pullingPedido.php", { conta: conta, restaurante: restaurante }).done(function (data) {
+
+
                 //console.log(data);
 
                 var contaatual = localStorage.getItem("contaatual");
                 var contanova = data;
 
-                if(contaatual != contanova){
+                if (contaatual != contanova) {
                     notificacao.sms("Conta atualizada");
                     $(".conta").html("");
                     esse.verConta();
-                    tabelaPedidos.setItem("contaatual",JSON.parse(contanova));
-                    localStorage.setItem("contaatual",(contanova));
-                    
+                    tabelaPedidos.setItem("contaatual", JSON.parse(contanova));
+                    localStorage.setItem("contaatual", (contanova));
+
                 }
                 //var res = JSON.parse(data);
-                
+
             })
         }, 5000)
     },
@@ -100,7 +104,7 @@ var Requests = {
         setInterval(function () {
             var num = localStorage.getItem("mesa")
             var restaurante = localStorage.getItem("restaurante");
-            $.get(api + "/pullingMesa.php", { mesa: num,  restaurante: restaurante }).done(function (data) {
+            $.get(api + "/pullingMesa.php", { mesa: num, restaurante: restaurante }).done(function (data) {
                 console.log(data);
                 var res = JSON.parse(data);
                 if (res.ok) {
@@ -123,6 +127,7 @@ var Requests = {
     }
     ,
     "pedir": function () {
+        loader.abrir();
         tabelaCarrinho.length().then(function (numberOfKeys) {
 
             setTimeout(function () {
@@ -139,7 +144,6 @@ var Requests = {
                     }
                 }).then(function (zero) {
                     console.log(zero);
-                    loader.abrir();
                     var total = document.querySelector(".carrinhoTotal").innerHTML;
                     var itens = JSON.stringify(zero);
                     var conta = localStorage.getItem("conta");
@@ -151,7 +155,9 @@ var Requests = {
                             notificacao.sms("O seu pedido esta a ser processado")
                             tabelaCarrinho.clear();
                             Funcoes.carrinho();
+                            document.querySelector('button.btn-close').click();
                             loader.fechar();
+                            
                         } else {
                             loader.fechar();
                         }
@@ -167,14 +173,14 @@ var Requests = {
     "verConta": function () {
         var conta = localStorage.getItem("conta");
         var restaurante = localStorage.getItem("restaurante");
-        $.get(api + "/verConta.php", { conta: conta, restaurante:restaurante }).done(function (data) {
+        $.get(api + "/verConta.php", { conta: conta, restaurante: restaurante }).done(function (data) {
             var res = JSON.parse(data);
             console.log(res);
             ((res.payload)).forEach(element => {
                 var itens = (element.itens);
-                var htmlItem = $("<div></div>") ;
+                var htmlItem = $("<div></div>");
                 itens.forEach(elemento => {
-                //console.log(htmlItem);
+                    //console.log(htmlItem);
                     var html = $(`<div class="card  mb-1" style="position: relative;border-radius: 0;display:block;">
                         <div style="padding:2px 5px;">
                             <div class="row d-flex justify-content-between align-items-center" style="background:none;">
@@ -194,7 +200,7 @@ var Requests = {
 
                     htmlItem.append(html);
                 });
-                var aceite = (element.aceite) ? "#0dcaf0" : "#ffc107";
+                var aceite = (element.aceite) ? "#0dcaf050" : "#77000050";
                 var aceiteLabel = (element.aceite) ? "Aceite" : "";
                 var pedido = $(`<div style="display:block;width:100%;padding:1%;border:1px solid #eaeaea;margin:20px 0;background:${aceite}">
                         <h3 style="float:right;font-size:15px;font-weight:bold;">${(element.total)}</h3>
@@ -209,65 +215,65 @@ var Requests = {
         })
     },
     "fazReclamacao": function () {
-        
-            var telefone = document.querySelector("#rec_telefone").value;
-            var email = document.querySelector("#rec_email").value;
-            var detalhes = document.querySelector("#rec_detalhes").value;
-            var nome = localStorage.getItem("nome");
 
-            if(telefone.length < 5 || email.length < 5 || detalhes.length <5 ){
-                notificacao.sms("Preenca todos campos.");
-                return;
+        var telefone = document.querySelector("#rec_telefone").value;
+        var email = document.querySelector("#rec_email").value;
+        var detalhes = document.querySelector("#rec_detalhes").value;
+        var nome = localStorage.getItem("nome");
+
+        if (telefone.length < 5 || email.length < 5 || detalhes.length < 5) {
+            notificacao.sms("Preenca todos campos.");
+            return;
+        }
+
+        $.post(api + "/fazReclamacao.php", { telefone: telefone, email: email, detalhes: detalhes, nome: nome }).done(function (data) {
+            console.log(data);
+            var res = JSON.parse(data);
+            if (res.ok) {
+                localStorage.setItem("reclamou", "sim");
+                notificacao.sms("A sua reclamacao esta a ser processada.");
+                vaiTela("home");
+            } else {
+                loader.fechar();
             }
+        })
 
-            $.post(api + "/fazReclamacao.php", { telefone: telefone, email:email, detalhes: detalhes, nome: nome }).done(function (data) {
-                console.log(data);
-                var res = JSON.parse(data);
-                if (res.ok) {
-                   localStorage.setItem("reclamou","sim");
-                   notificacao.sms("A sua reclamacao esta a ser processada.");
-                   vaiTela("home");
-                } else {
-                    loader.fechar();
-                }
-            })
-        
     },
-    "verMesas": function(res){
+    "verMesas": function (res) {
         $.get(api + "/verMesas.php", { usuario: res }).done(function (data) {
-                console.log(data);
-                var res = JSON.parse(data);
-                if (res.ok) {
-                    const hash = window.location.hash;
-                    var usuario = hash.split("#")[1];
+            console.log(data);
+            var res = JSON.parse(data);
+            if (res.ok) {
+                const hash = window.location.hash;
+                var usuario = hash.split("#")[1];
 
-                    (res.payload).forEach( (element) => {
-                        console.log(element);
-                        var vip = Number(element.vip) ? "VIP" : "";
-                        if(Number(element.ocupada)){
-                            var el = $(`<div class="mesas">
+                (res.payload).forEach((element) => {
+                    console.log(element);
+                    var vip = Number(element.vip) ? "VIP" : "";
+                    if (Number(element.ocupada)) {
+                        var el = $(`<div class="mesas">
                                             
                                             <p class="vipmesa">${vip}</p>
                                             <p class="numeromesa">${element.numeromesa}</p>
                                         
                                     </div>`)
-                        }else{
-                            var el = $(`<div class="mesas">
+                    } else {
+                        var el = $(`<div class="mesas">
                                             <a href="/?${usuario}#${element.numeromesa}">
                                             <p class="vipmesa">${vip}</p>
                                             <p class="numeromesa">${element.numeromesa}</p>
                                         <a>
                                     </div>`)
-                        }
-                        
-                        $("#render").append(el);
-                    })
-                    //localStorage.setItem("reclamou","sim");
-                    //notificacao.sms("A sua reclamacao esta a ser processada.");
-                   
-                } else {
-                    loader.fechar();
-                }
-            })
+                    }
+
+                    $("#render").append(el);
+                })
+                //localStorage.setItem("reclamou","sim");
+                //notificacao.sms("A sua reclamacao esta a ser processada.");
+
+            } else {
+                loader.fechar();
+            }
+        })
     }
 }

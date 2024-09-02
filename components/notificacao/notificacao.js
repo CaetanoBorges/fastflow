@@ -5,23 +5,21 @@ debliwui_notificacao.innerHTML = `
             position:fixed;
             width:94%;
             left: 3%;
-            top:1.5vh;
+            top:-100%;
             height:fit-content;
-            background: #dc3545;
             z-index: 9999999999999 !important;
             border-radius:5px;
-            display:none
+
         }
         
 
         .header{
-            
             position:relative;
             width:100%;
             height:fit-content;
         }
        
-       #sms{display:flex;justify-content:center;align-items:center;padding:1vh 5%;font-size:23px;text-transform:capitalize;font-weight:bold;text-align:center;color:white}
+       #sms{display:flex;justify-content:center;align-items:center;padding:1vh 5%;font-size:23px;text-transform:capitalize;font-weight:bold;text-align:center;color:white;font-weight:400;}
     </style>
 
     <div class="container" style="z-index: 9999999999999 !important"> 
@@ -35,19 +33,20 @@ debliwui_notificacao.innerHTML = `
 
 class debliwuinotificacao extends HTMLElement {
 
-    constructor() {
+    constructor($) {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(debliwui_notificacao.content.cloneNode(true));
+        this.$ = $;
     }
 
     fechar(esse) {
         let container = esse.shadowRoot.querySelector('.container');
-        container.style.display = "none";
+        $(container).animate({"top":"-100%"},400); 
     }
     abrir() {
         let container = this.shadowRoot.querySelector('.container');
-        container.style.display = "block";
+        $(container).animate({"top":"1.5vh"},400);        
     }
 
     connectedCallback() {
@@ -59,14 +58,19 @@ class debliwuinotificacao extends HTMLElement {
     }
 
     sms(mensagem,tipo = 0) {
+        var $ = this.$;
         var esse = this;
         var fechar = this.fechar;
         let sms = this.shadowRoot.querySelector('#sms');
         sms.innerHTML = mensagem;
+        var container = this.shadowRoot.querySelector('.container');
         if(tipo == 1){
-            this.shadowRoot.querySelector('.container').style.background = "#dc3545";
+            console.log(container.style.background );
+            container.style.background = "#dc3545";
+            $(container).animate({"background":"#dc3545"},500);
         }else{
-            this.shadowRoot.querySelector('.container').style.background = "#428bca";
+            container.style.background = "#428bca";
+            $(container).animate({"background":"#428bca"},500);
         }
 
         this.abrir();

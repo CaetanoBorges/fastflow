@@ -33,8 +33,10 @@ var Funcoes = {
                             dados.qtd += 1;
                             dados.total = dados.qtd * dados.preco;
                             tabelaCarrinho.setItem((element.nome), dados);
+                            notificacao.sms("(+1) " + element.nome + "<br>Agora são " + dados.qtd);
                         } else {
                             tabelaCarrinho.setItem((element.nome), { nome: (element.nome), preco: (element.preco), qtd: 1, total: (element.preco) });
+                            notificacao.sms("Adicionou (1) " + element.nome + " ao carrinho");
                         }
                     })
                 })
@@ -129,7 +131,7 @@ var Funcoes = {
 
         }).then(function () {
             Funcoes.carrinhoTotal();
-            
+
         })
 
 
@@ -145,7 +147,7 @@ var Funcoes = {
                 tabelaCarrinho.iterate(function (valor, chave, iterationNumber) {
                     console.log(valor, chave, iterationNumber);
                     zero += Number(valor.total)
-                    if(iterationNumber == numberOfKeys){
+                    if (iterationNumber == numberOfKeys) {
                         return zero;
                     }
                 }).then(function (zero) {
@@ -160,27 +162,37 @@ var Funcoes = {
                 })
             }, 1000)
         }).catch(function (err) {
-            
+
             console.log(err);
         });
 
     },
 
-    "reclamou":function(){
-        if(localStorage.getItem("reclamou")){
+    "reclamou": function () {
+        if (localStorage.getItem("reclamou")) {
             document.querySelector(".faz_reclamacao").style.display = "none";
             document.querySelector(".reclamou").style.display = "block";
             return;
         }
-        
-            document.querySelector(".faz_reclamacao").style.display = "block";
-            document.querySelector(".reclamou").style.display = "none";
+
+        document.querySelector(".faz_reclamacao").style.display = "block";
+        document.querySelector(".reclamou").style.display = "none";
     },
 
 
-    "urlParam":function(){
+    "urlParam": function () {
         const urlParams = new URLSearchParams(window.location.search);
-        return (urlParams.toString()).split("=")[0];
+        var para = null;
+        if (urlParams.size > 0) {
+            para = (urlParams.toString()).split("=")[0];
+        }
+        var restaurante = localStorage.getItem("restaurante");
+        if (restaurante) {
+            if (restaurante.length > 10) {
+                para =  restaurante
+            }
+        }
+        return para;
     }
 
 
