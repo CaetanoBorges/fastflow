@@ -18,7 +18,7 @@ var Funcoes = {
                                 <h5 class="mb-0 fw-normal" style="position:absolute;bottom:45px;right:5px;">${(element.preco)} <span style="font-weight:lighter">AOA</span></h5>
                             </div>
                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <button class="btn btn-outline-danger" style="border-radius:0;opacity:.7;position:absolute;bottom:5px;right:5px;"> Add ao pedido</button>
+                                <button class="btn btn-outline-danger hvr-bounce-out" style="border-radius:0;opacity:.7;position:absolute;bottom:5px;right:5px;"> Add ao pedido</button>
                             </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@ var Funcoes = {
                                 <p class="lead fw-normal mb-2">${(valor.nome)}</p>
                             </div>
                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                <button class="btn btn-info menos" style="border-radius: 0"
+                                <button class="btn btn-info menos hvr-bounce-out" style="border-radius: 0"
                                 onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                 -
                                 </button>
@@ -70,7 +70,7 @@ var Funcoes = {
                                 <input id="item_qtd" min="0" name="quantity" value="${(valor.qtd)}" type="number"
                                 class="form-control form-control-sm" />
 
-                                <button class="btn btn-info mais" style="border-radius: 0"
+                                <button class="btn btn-info mais hvr-bounce-out" style="border-radius: 0"
                                 onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                 +
                                 </button>
@@ -82,7 +82,7 @@ var Funcoes = {
                                 </div>
                             </div>
                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <button class="btn btn-danger apagar" style="border-radius: 50%;width:20px;height:25px; position: absolute;top:5px;right:5px;"> </button>
+                                <button class="btn btn-danger apagar hvr-bounce-out" style="border-radius: 50%;width:20px;height:25px; position: absolute;top:5px;right:5px;"> </button>
                             </div>
                             </div>
                         </div>
