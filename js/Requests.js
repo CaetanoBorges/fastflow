@@ -7,6 +7,12 @@ var Requests = {
             var res = JSON.parse(data);
             if (res.ok) {
                 tabelaProdutos.setItem("produtos", res.payload);
+                var ui = ``;
+                var categorias = Object.keys(res.payload);
+                categorias.forEach(function(el){
+                    ui+=`<button class="btn btn-info btn-lg form-control botaocard hvr-bounce-out" onclick='vaiTela("/categoria#${el}")'>${el}</button>`;
+                });
+                $("#render").html(ui);
             }
         })
     },
@@ -28,7 +34,7 @@ var Requests = {
                     loader.fechar();
                 } else {
                     console.error(hash);
-
+                    localStorage.setItem("mesaindisponivel", num);
                     vaiTela("/mesaIndisponivel#" + restaurante);
                     loader.fechar();
                 }
@@ -62,6 +68,33 @@ var Requests = {
                 localStorage.setItem("restaurante", restaurante);
                 setTimeout(function () {
                     menu.shadowRoot.querySelector(".user p").innerHTML = nome + '<br> Mesa ' + num;
+                }, 1000)
+                vaiTela("/home");
+                loader.fechar();
+            } else {
+                loader.fechar();
+            }
+        })
+    },"acederConta": function () {
+
+        var codigoconta = document.querySelector("#codigoconta").value;
+        var restaurante = localStorage.getItem("restaurante");
+        var mesa = localStorage.getItem("mesaindisponivel");
+
+        loader.abrir();
+        $.get(api + "/acederconta.php", { mesa: mesa, codigoconta: codigoconta, restaurante: restaurante }).done(function (data) {
+            console.log(data);
+            var res = JSON.parse(data);
+            if (res.ok) {
+                localStorage.setItem("conta", res.payload.idconta);
+                localStorage.setItem("mesa", mesa);
+                localStorage.setItem("descricao", res.payload.descricao);
+                localStorage.setItem("quando", res.payload.quando);
+                localStorage.setItem("nome", res.payload.nome);
+                localStorage.setItem("fechado", "");
+                localStorage.setItem("restaurante", restaurante);
+                setTimeout(function () {
+                    menu.shadowRoot.querySelector(".user p").innerHTML = res.payload.nome + '<br> Mesa ' + mesa;
                 }, 1000)
                 vaiTela("/home");
                 loader.fechar();

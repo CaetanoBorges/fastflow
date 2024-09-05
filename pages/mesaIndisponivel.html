@@ -1,7 +1,11 @@
 <div id="render">
 
     <br><br><br><br>
-        <h1 style="font-size: 50px;">MESA INDISPONIVEL</h1><br>
+        <h1 style="font-size: 50px;margin:0">MESA <br> OCUPADA</h1>
+        <p style="line-height: 1rem;">Insira o código da conta para aceder: <br> <span style="font-size: small;margin:0;"><i>(Peça o código no caixa)</i></span> </p>
+        <input type="text" class="btn btn-sm btn-outline-success" placeholder="Código" id="codigoconta">
+        <button class="btn btn-sm btn-success hvr-bounce-out"  style="border-radius: 0;" onclick="Requests.acederConta()">Aceder a conta</button>
+        <br><br><br>
         <h1 style="font-size: 50px;">PODE ESCOLHER OUTRA</h1><br>
         <button class="btn btn-lg btn-danger" style="border-radius: 0;" onclick='vaiTela(`/mesas${(window.location.hash)}`)'>VER OUTRAS MESAS</button>
         <br>
