@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="assets/hover-min.css">
         <link rel="stylesheet" href="assets/geral.css">
+        <link rel="manifest" href="manifest.json">
         <script src="assets/bootstrap/jquery.js"></script>
         <script src="assets/localforage.js"></script>
         <script src="components/slideImg/lightSlider.js"></script>
@@ -73,9 +74,13 @@
 
                     </div>
                     <div class="modal-footer">
-                        <h5><span style="font-weight: lighter;">TOTAL:</span> <span class="carrinhoTotal"></span> <span style="font-weight: lighter;">AOA</span></h5>
-                        <button type="button" class="btn btn-info form-control carrinhoPedir hvr-bounce-out"
-                            style="border-radius: 0;" onclick="Requests.pedir()">Pedir</button>
+                        <h5><span style="font-weight: lighter;">TOTAL:</span>
+                            <span class="carrinhoTotal"></span> <span
+                                style="font-weight: lighter;">AOA</span></h5>
+                        <button type="button" class="btn btn-info form-control
+                            carrinhoPedir hvr-bounce-out"
+                            style="border-radius: 0;"
+                            onclick="Requests.pedir()">Pedir</button>
                     </div>
                 </div>
             </div>
@@ -93,12 +98,25 @@
     //-------------------------------------------------
     
 </script>
-        <script src="js/Funcoes.js"></script>
-        <script src="js/Requests.js"></script>
+    <script src="js/Funcoes.js"></script>
+    <script src="js/Requests.js"></script>
+    <script src="js/swFunctions.js"></script>
     <script src="router.js"></script>
+    <script src="sw.js"></script>
     <script>
     Requests.verProdutos();
     Requests.pullingConta();
     Requests.pullingPedidos();
+
+
+     $(document).ready(function(){
+            var notificacao = Notification.permission;
+            if(notificacao == "granted"){
+                $(".notificacao-status").html("notificações ativadas").css({color:"#ff0000"});
+            }else{
+                $(".notificacao-status").html("ativar notificações").css({color:"#fff"});
+            }
+          
+        })
 </script>
 </html>

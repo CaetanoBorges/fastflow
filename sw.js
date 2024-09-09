@@ -1,71 +1,18 @@
-importScripts("_arq/localforage.js");
-importScripts("_arq/db.config.js");
-importScripts("_js/bin/getData.js");
-importScripts("_js/bin/swConections.js");
+
 // Names of the two caches used in this version of the service worker.
 // Change to v2, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const PRECACHE = 'Yetu_precache-v1';
-const RUNTIME = 'Yetu_runtime-v1';
+const PRECACHE = 'REST_precache-v1';
+const RUNTIME = 'REST_runtime-v1';
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
-    'index.php',
-    'acaminho.php',
-    'cadastrar.php',
-    'comprar.php',
-    'compras.php',
-    'conta.php',
-    'esqueci.php',
-    'login.php',
-    'n.php',
-    'p.php',
-    's.php',
-    'recebercodigo.php',
-    'validarcodigo.php',
-    'app.php',
-    '_arq/debliwui-menu.js',
-    '_arq/bootstrap.min.css',
-    '_arq/bootstrap.min.js',
-    '_arq/db.config.js',
-    '_arq/Inter-Regular.ttf',
-    '_arq/jquery.js',
-    '_arq/lightslider.css',
-    '_arq/lightslider.js',
-    '_css/card-itens.css',
-    '_css/cesto.css',
-    '_css/compras.css',
-    '_css/conta.css',
-    '_css/header.css',
-    '_css/one.css',
-    '_css/pes.css',
-    '_css/produto.css',
-    '_css/slide-sugestao.css',
-    '_css/slide.css',
-    '_icones/',
-    '_js/loader.js',
-    '_js/one.js',
-    '_js/routes.js',
-    '_js/slide-card.js',
-    '_js/slide-grosso.js',
-    '_js/slide-sugestao.js',
-    '_js/slide-um.js',
-    '_js/paginas/compras.js',
-    '_js/paginas/conta.js',
-    '_js/bin/card-itens.js',
-    '_js/bin/carrinho-adiciona.js',
-    '_js/bin/carrinho.js',
-    '_js/bin/categorias.js',
-    '_js/bin/func.pesquisar.js',
-    '_partes/card-itens.php',
-    '_partes/css.php',
-    '_partes/header.php',
-    '_partes/pes.php',
-    '_partes/script.php',
-    '_partes/slide-card.php',
-    '_partes/slide-grosso.php',
-    '_partes/slide-sugestao.php',
-    '_partes/slide-um.php'
+    'index.html',
+    'back.jpg',
+    'router.js',
+    'assets/',
+    'pages/',
+    'components/'
 ];
 
 // The install handler takes care of precaching the resources we always need.
@@ -126,7 +73,7 @@ function resposta_offline(event) {
 }
 
 self.addEventListener('push', (e) => {
-    console.log();
+    console.log(e);
     mostrarNotificacao(self, e.data.text());
 });
 
@@ -142,46 +89,7 @@ function resposta_online(event) {
 
     })
 }
-self.addEventListener('fetch', function(event) {
-    // Skip cross-origin requests, like those for Google Analytics.
 
-
-    //console.log(event.request);
-    if (event.request.method == "POST") {
-
-    } else {
-        if (navigator.onLine) {
-            resposta_online(event);
-        } else {
-            resposta_offline(event);
-        }
-
-
-    }
-
-});
-
-
-self.addEventListener('sync', function(event) {
-    //console.log(event);
-    if (event.tag === 'sincronizar') {
-        //event.waitUntil(sendOutboxMessages());
-
-        pegaProdutos();
-        pegaSugestoes();
-        pegaCategorias();
-        pegaSlide();
-        pegaCestaBasica();
-
-        tbUser.getItem("token").then(function(token) {
-            if (token) {
-                pegaUser(token);
-                pegaCompras(token);
-            }
-        })
-
-    }
-});
 
 function mostrarNotificacao(self, res) {
     var result = JSON.parse(res);
@@ -190,12 +98,13 @@ function mostrarNotificacao(self, res) {
 }
 
 self.addEventListener('notificationclick', function(e) {
+    console.log(e);
     e.notification.close();
     //console.log(e);
     if (e.action == "Abrir") {
         //console.log(e.notification.data);
         //clients.openWindow("p.php?" + e.notification.data);
 
-        clients.openWindow(".");
+        //clients.openWindow(".");
     }
 })

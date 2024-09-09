@@ -5,26 +5,20 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
         .then(registration => {
             swRegistration = registration;
-            swRegistration.sync.register('sincronizar');
-            //console.log(`Service Worker registered! Scope: ${registration.scope}`);
+            
         })
         .catch(err => {
             console.log(`Service Worker registration failed: ${err}`);
         });
 
 }
-// This variable will save the event for later use.
 
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevents the default mini-infobar or install dialog from appearing on mobile
     e.preventDefault();
-    // Save the event because you'll need to trigger it later.
+    
     deferredPrompt = e;
-    // Show your customized install prompt for your PWA
-    // Your own UI doesn't have to be a single element, you
-    // can have buttons in different locations, or wait to prompt
-    // as part of a critical journey.
-    //showInAppInstallPromotion();
+    
 });
 
 async function instalar() {
@@ -51,10 +45,10 @@ async function instalar() {
 
 function permissaoNotificacao() {
     var res = Notification.requestPermission();
-    res.then(function(e) {
+    res.then(function (e) {
         if (e == "granted") {
             swRegistration.showNotification("Já tem as notificações ativadas", { body: "Muito bem", icon: "_icones/ico.png" });
-            tbUser.getItem("notificacao").then(function(not) {
+            tbUser.getItem("notificacao").then(function (not) {
                 if (not) {
                     return;
                 }
@@ -86,84 +80,24 @@ function registraNotificacao() {
             // handle subscription
 
             push = pushSubscription.toJSON();
-            pushSubscribe = { endpoint: push.endpoint, auth: push.keys.auth, p256dh: push.keys.p256dh }
-            tbUser.getItem("token").then(function(token) {
-                var user = '';
-                if (token) {
-                    user = token;
-                }
-                $.post("_API/push/add.php", { token: user, endpoint: push.endpoint, auth: push.keys.auth, pdh: push.keys.p256dh }).done(function(res) {
-                    tbUser.setItem("notificacao", true);
-                })
-            })
+            pushSubscribe = { endpoint: push.endpoint, auth: push.keys.auth, p256dh: push.keys.p256dh };
+            var restaurante = localStorage.getItem("restaurante");
+            $.post("_API/push/add.php", { restaurante: restaurante, endpoint: push.endpoint, auth: push.keys.auth, pdh: push.keys.p256dh }).done(function (res) {
+                localStorage.setItem("notificacao", 1);
+            });
         });
 
 }
 
 function registaUserNaNotificacao() {
-    tbUser.getItem("notificacao").then(function(status) {
-        if (status) {
-            tbUser.getItem("token").then(function(token) {
-                if (token) {
-                    registraNotificacao();
-                }
-            })
+    var status = localStorage.getItem("notificacao");
+    if (status) {
+        var restaurante = localStorage.getItem("restaurante");
+        if (restaurante) {
+            registraNotificacao();
         }
-    })
-}
-
-tbUser.getItem("install").then(function(e) {
-    if (e === true) {
-        $("body").css({ overflow: "auto" });
-        $(".splash-container").hide();
-        getProdutos();
-        getCategorias();
-        getSlide();
-        getSugestoes();
-        getCestaBasica();
-        return
     }
-
-    getProdutos();
-    getCategorias();
-    getSlide();
-    getSugestoes();
-    getCestaBasica();
-
-    tbUser.setItem("install", true).then(function(e) {
-            setTimeout(function() {
-                tbUser.length().then(function(numberOfKeys) {
-                    // Outputs the length of the database.
-                    if (numberOfKeys > 1) {
-                        location.reload();
-                    } else {
-                        setTimeout(function() {
-                            location.reload();
-                        }, 3000)
-                    }
-
-                })
-            }, 3000);
-        })
-        //var user = getUser();
-        //var compras = getCompras();
-
-
-})
-
-/*
-setTimeout(function() {
-    tbUser.getItem("install").then(function(e) {
-        if (e === true) {
-            return
-        }
-        tbUser.setItem("install", true).then(function(i) {
-            location.reload();
-        })
-
-    })
-}, 5000)
-*/
+}
 
 
 registaUserNaNotificacao();
