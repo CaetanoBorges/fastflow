@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
-        <link rel="stylesheet" href="assets/hover-min.css">
         <link rel="stylesheet" href="assets/geral.css">
         <link rel="manifest" href="manifest.json">
         <script src="assets/bootstrap/jquery.js"></script>
@@ -38,8 +37,6 @@
     <body>
         <div class="corpo">
 
-
-
         </div>
         <div class="background-image"><img src="back.jpg" alt></div>
         <!-- Modal -->
@@ -60,13 +57,6 @@
                         <!-- QWERTY AZERTY-->
 
                         <section class="section">
-
-
-
-
-
-
-
 
                         </section>
 
@@ -112,11 +102,12 @@
      $(document).ready(function(){
             var notificacao = Notification.permission;
             if(notificacao == "granted"){
-                $(".notificacao-status").html("notificações ativadas").css({color:"#ff0000"});
+                $(menu.shadowRoot.querySelector(".sair")).html("Notificações ativas").css({color:"#0022ff"});
             }else{
-                $(".notificacao-status").html("ativar notificações").css({color:"#fff"});
-            }
-          
+                $(menu.shadowRoot.querySelector(".sair")).html("Ativar notificações").css({color:"#990000"}).click(function(){
+                    permissaoNotificacao();
+                });
+            }         
         })
 </script>
 </html>

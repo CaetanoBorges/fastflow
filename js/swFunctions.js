@@ -5,7 +5,7 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
         .then(registration => {
             swRegistration = registration;
-            
+
         })
         .catch(err => {
             console.log(`Service Worker registration failed: ${err}`);
@@ -16,9 +16,9 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevents the default mini-infobar or install dialog from appearing on mobile
     e.preventDefault();
-    
+
     deferredPrompt = e;
-    
+
 });
 
 async function instalar() {
@@ -48,12 +48,11 @@ function permissaoNotificacao() {
     res.then(function (e) {
         if (e == "granted") {
             swRegistration.showNotification("Já tem as notificações ativadas", { body: "Muito bem", icon: "_icones/ico.png" });
-            tbUser.getItem("notificacao").then(function (not) {
-                if (not) {
-                    return;
-                }
-                registraNotificacao();
-            })
+            var not = localStorage.getItem("notificacao");
+            if(not){
+                return;
+            }
+            registraNotificacao();
             return
         }
         notificacao("Precisa ativar as notificações com urgencia");

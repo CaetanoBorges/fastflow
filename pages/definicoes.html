@@ -28,16 +28,5 @@
                 $(".notificacao-status").html("ativar notificações").css({color:"#fff"});
             }
             
-            setTimeout(function(){
-               if(deferredPrompt){
-                    if (!deferredPrompt.isTrusted) {
-                        $(".aplicacao-status").html("aplicação instalada").css({color:"#ff0000"});
-                    }else{
-                        $(".aplicacao-status").html("instalar aplicação").css({color:"#fff"});
-                    }
-               }else{
-                    $(".aplicacao-status").html("aplicação instalada").css({color:"#ff0000"});
-               }
-            },1000)
         })
      </script>
