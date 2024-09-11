@@ -48,6 +48,7 @@ function permissaoNotificacao() {
     res.then(function (e) {
         if (e == "granted") {
             swRegistration.showNotification("Já tem as notificações ativadas", { body: "Muito bem", icon: "_icones/ico.png" });
+            $(menu.shadowRoot.querySelector(".sair")).html("Notificações ativas").css({color:"#0022ff"});
             var not = localStorage.getItem("notificacao");
             if(not){
                 return;

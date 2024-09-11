@@ -150,4 +150,4 @@ window.onpopstate = handleLocation;
 window.route = route;
 
 handleLocation();
-anima();
+//anima();

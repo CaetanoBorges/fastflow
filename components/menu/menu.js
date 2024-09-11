@@ -219,7 +219,7 @@ handleLocation = async () => {
 
             if (path == "/home") {
                 loader.abrir();
-                
+                Requests.verProdutos();
                 var slide = new debliwuislideimg($, ['<img src="pub.png" alt="">'], mostrarquantos = 1, pager = false, speed = 800, pause = 2000)
                 document.querySelector(".corpo").prepend(slide);   
                 setTimeout(function () {

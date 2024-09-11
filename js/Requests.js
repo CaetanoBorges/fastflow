@@ -206,6 +206,8 @@ var Requests = {
     "verConta": function () {
         var conta = localStorage.getItem("conta");
         var restaurante = localStorage.getItem("restaurante");
+        var totalConta = 0;
+        var pedidosAceites = 0;
         $.get(api + "/verConta.php", { conta: conta, restaurante: restaurante }).done(function (data) {
             var res = JSON.parse(data);
             console.log(res);
@@ -233,6 +235,10 @@ var Requests = {
 
                     htmlItem.append(html);
                 });
+                if(element.aceite){
+                    totalConta += Number(element.total);
+                    pedidosAceites += 1;
+                }
                 var aceite = (element.aceite) ? "#0dcaf050" : "#77000050";
                 var aceiteLabel = (element.aceite) ? "Aceite" : "";
                 var pedido = $(`<div style="display:block;width:100%;padding:1%;border:1px solid #eaeaea;margin:20px 0;background:${aceite}">
@@ -244,6 +250,9 @@ var Requests = {
 
                 $(".conta").append(pedido);
             });
+            var details = `<p><span class="qtd">${pedidosAceites}</span> pedidos aceites</p>
+                            <p>Total: <span class="total">${totalConta}</span></p>`;
+            $(".details-conta").html(details);
 
         })
     },
@@ -253,13 +262,13 @@ var Requests = {
         var email = document.querySelector("#rec_email").value;
         var detalhes = document.querySelector("#rec_detalhes").value;
         var nome = localStorage.getItem("nome");
-
+        var restaurante = localStorage.getItem("restaurante");
         if (telefone.length < 5 || email.length < 5 || detalhes.length < 5) {
             notificacao.sms("Preenca todos campos.");
             return;
         }
 
-        $.post(api + "/fazReclamacao.php", { telefone: telefone, email: email, detalhes: detalhes, nome: nome }).done(function (data) {
+        $.post(api + "/fazReclamacao.php", { telefone: telefone, email: email, detalhes: detalhes, nome: nome, restaurante: restaurante }).done(function (data) {
             console.log(data);
             var res = JSON.parse(data);
             if (res.ok) {

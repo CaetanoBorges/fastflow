@@ -28,6 +28,8 @@ var Funcoes = {
 
                 item[0].querySelector("button").addEventListener("click", function () {
                     console.warn((element.nome))
+                    $(this).animate({ "opacity": "0" }, "fast");
+                    $(this).animate({ "opacity": "1" }, "fast");
                     tabelaCarrinho.getItem((element.nome)).then(function (dados) {
                         if (dados) {
                             dados.qtd += 1;
@@ -70,7 +72,7 @@ var Funcoes = {
                                 </button>
 
                                 <input id="item_qtd" min="0" name="quantity" value="${(valor.qtd)}" type="number"
-                                class="form-control form-control-sm" />
+                                class="form-control form-control-sm item_qtd" />
 
                                 <button class="btn btn-info mais hvr-bounce-out" style="border-radius: 0"
                                 onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
@@ -94,6 +96,8 @@ var Funcoes = {
 
             item[0].querySelector(".mais").addEventListener("click", function () {
                 console.warn((valor.nome))
+                $(this).animate({ "opacity": "0" }, "fast");
+                $(this).animate({ "opacity": "1" }, "fast");
                 var qtd = item[0].querySelector("#item_qtd").value;
                 tabelaCarrinho.getItem((valor.nome)).then(function (dados) {
                     dados.qtd = qtd;
@@ -108,6 +112,24 @@ var Funcoes = {
             });
             item[0].querySelector(".menos").addEventListener("click", function () {
                 console.warn((valor.nome))
+                $(this).animate({ "opacity": "0" }, "fast");
+                $(this).animate({ "opacity": "1" }, "fast");
+                var qtd = item[0].querySelector("#item_qtd").value;
+                tabelaCarrinho.getItem((valor.nome)).then(function (dados) {
+                    dados.qtd = qtd;
+                    dados.total = qtd * dados.preco;
+
+                    item[0].querySelector(".total").innerHTML = dados.total;
+                    return dados;
+                }).then(function (dados) {
+                    tabelaCarrinho.setItem((valor.nome), dados);
+                    Funcoes.carrinhoTotal();
+                })
+            });
+            item[0].querySelector(".item_qtd").addEventListener("change", function () {
+                console.warn((valor.nome))
+                $(this).animate({ "opacity": "0" }, "fast");
+                $(this).animate({ "opacity": "1" }, "fast");
                 var qtd = item[0].querySelector("#item_qtd").value;
                 tabelaCarrinho.getItem((valor.nome)).then(function (dados) {
                     dados.qtd = qtd;
@@ -121,6 +143,8 @@ var Funcoes = {
                 })
             });
             item[0].querySelector(".apagar").addEventListener("click", function () {
+                $(this).animate({ "opacity": "0" }, "fast");
+                $(this).animate({ "opacity": "1" }, "fast");
                 tabelaCarrinho.removeItem((valor.nome)).then(function () {
                     document.querySelector(".section").innerHTML = '';
                     Funcoes.carrinho();
