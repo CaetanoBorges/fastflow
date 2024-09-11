@@ -82,7 +82,8 @@ function registraNotificacao() {
             push = pushSubscription.toJSON();
             pushSubscribe = { endpoint: push.endpoint, auth: push.keys.auth, p256dh: push.keys.p256dh };
             var restaurante = localStorage.getItem("restaurante");
-            $.post("_API/push/add.php", { restaurante: restaurante, endpoint: push.endpoint, auth: push.keys.auth, pdh: push.keys.p256dh }).done(function (res) {
+            $.post(api + "/ativarPush.php", { restaurante: restaurante, endpoint: push.endpoint, auth: push.keys.auth, pdh: push.keys.p256dh }).done(function (res) {
+                console.error(res);
                 localStorage.setItem("notificacao", 1);
             });
         });
