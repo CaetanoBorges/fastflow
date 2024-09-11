@@ -9,8 +9,8 @@ var Requests = {
                 tabelaProdutos.setItem("produtos", res.payload);
                 var ui = ``;
                 var categorias = Object.keys(res.payload);
-                categorias.forEach(function(el){
-                    ui+=`<button class="btn btn-info btn-lg form-control botaocard hvr-bounce-out" onclick='vaiTela("/categoria#${el}")'>${el}</button>`;
+                categorias.forEach(function (el) {
+                    ui += `<button class="btn btn-info btn-lg form-control botaocard hvr-bounce-out" onclick='vaiTela("/categoria#${el}")'>${el}</button>`;
                 });
                 $("#render").html(ui);
             }
@@ -75,7 +75,7 @@ var Requests = {
                 loader.fechar();
             }
         })
-    },"acederConta": function () {
+    }, "acederConta": function () {
 
         var codigoconta = document.querySelector("#codigoconta").value;
         var restaurante = localStorage.getItem("restaurante");
@@ -115,7 +115,7 @@ var Requests = {
             $.get(api + "/pullingPedido.php", { conta: conta, restaurante: restaurante }).done(function (data) {
 
 
-                //console.log(data);
+                console.log(data);
 
                 var contaatual = localStorage.getItem("contaatual");
                 var contanova = data;
@@ -190,7 +190,7 @@ var Requests = {
                             Funcoes.carrinho();
                             document.querySelector('button.btn-close').click();
                             loader.fechar();
-                            
+
                         } else {
                             loader.fechar();
                         }
@@ -214,9 +214,10 @@ var Requests = {
             ((res.payload)).forEach(element => {
                 var itens = (element.itens);
                 var htmlItem = $("<div></div>");
-                itens.forEach(elemento => {
-                    //console.log(htmlItem);
-                    var html = $(`<div class="card  mb-1" style="position: relative;border-radius: 0;display:block;">
+                try {
+                    itens.forEach(elemento => {
+                        //console.log(htmlItem);
+                        var html = $(`<div class="card  mb-1" style="position: relative;border-radius: 0;display:block;">
                         <div style="padding:2px 5px;">
                             <div class="row d-flex justify-content-between align-items-center" style="background:none;">
                                 <div class="col-md-3 col-lg-3 col-xl-3" style="margin:0">
@@ -233,22 +234,25 @@ var Requests = {
                         </div>
                         </div>`)[0];
 
-                    htmlItem.append(html);
-                });
-                if(element.aceite){
-                    totalConta += Number(element.total);
-                    pedidosAceites += 1;
-                }
-                var aceite = (element.aceite) ? "#0dcaf050" : "#77000050";
-                var aceiteLabel = (element.aceite) ? "Aceite" : "";
-                var pedido = $(`<div style="display:block;width:100%;padding:1%;border:1px solid #eaeaea;margin:20px 0;background:${aceite}">
+                        htmlItem.append(html);
+                    });
+                    if (element.aceite) {
+                        totalConta += Number(element.total);
+                        pedidosAceites += 1;
+                    }
+                    var aceite = (element.aceite) ? "#0dcaf050" : "#77000050";
+                    var aceiteLabel = (element.aceite) ? "Aceite" : "";
+                    var pedido = $(`<div style="display:block;width:100%;padding:1%;border:1px solid #eaeaea;margin:20px 0;background:${aceite}">
                         <h3 style="float:right;font-size:15px;font-weight:bold;">${(element.total)}</h3>
                         <h3 style="text-align:left;font-size:15px;margin:0">Itens: ${(itens.length)}</h3>
                         <h3 style="text-align:left;font-size:10px;margin:0">${(element.quando)}</h3>
                 </div>`);
-                pedido.append(htmlItem);
+                    pedido.append(htmlItem);
 
-                $(".conta").append(pedido);
+                    $(".conta").append(pedido);
+                } catch (error) {
+
+                }
             });
             var details = `<p><span class="qtd">${pedidosAceites}</span> pedidos aceites</p>
                             <p>Total: <span class="total">${totalConta}</span></p>`;
