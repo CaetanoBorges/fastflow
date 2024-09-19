@@ -149,8 +149,7 @@ var Requests = {
                         localStorage.removeItem("fechado");
                         localStorage.removeItem("reclamou");
                         tabelaCarrinho.clear();
-                        vaiTela("/")
-                        loader.fechar();
+                        vaiTela("/mesas#" + restaurante);
                     }
                 } else {
                     loader.fechar();
