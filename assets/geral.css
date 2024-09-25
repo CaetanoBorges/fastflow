@@ -82,3 +82,7 @@
  .details-conta{font-size: 15px;line-height: 25px;}
  .details-conta p{margin: 0;}
  .details-conta p span{font-weight: bold;}
+
+ .topo {width: 100%;display: block;box-shadow:0px 0px 7.4px 1px rgba(255, 0, 0, 0.1);margin-bottom: 10px;padding: 10px;}
+ .topo img{width:100px;display: block;margin:0 auto;}
+ .topo h2{text-align: center;}

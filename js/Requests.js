@@ -286,12 +286,16 @@ var Requests = {
     },
     "verMesas": function (res) {
         $.get(api + "/verMesas.php", { usuario: res }).done(function (data) {
-            console.log(data);
+            console.error(data);
             var res = JSON.parse(data);
             if (res.ok) {
                 const hash = window.location.hash;
                 var usuario = hash.split("#")[1];
 
+                $uiTopo = `<img src="${(api)}/img/${((res.restaurante).img)}">
+                <h2>${((res.restaurante).nome)}</h2>`;
+
+                $(".topo").html($uiTopo);
                 (res.payload).forEach((element) => {
                     console.log(element);
                     var vip = Number(element.vip) ? "VIP" : "";
