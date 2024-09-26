@@ -79,11 +79,9 @@
     <script>
     var loader = new debliwuiloader();
     var notificacao = new debliwuinotificacao($);
-    var menu = new debliwuimenu(null,$);
 
     document.querySelector("body").append(loader);
     document.querySelector("body").append(notificacao);
-    document.querySelector("body").append(menu);
 
     //-------------------------------------------------
     
@@ -109,5 +107,10 @@
                 });
             }         
         })
+
+        
+    var menu = new debliwuimenu(null,$);
+    document.querySelector("body").append(menu);
 </script>
+
 </html>

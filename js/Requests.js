@@ -324,5 +324,22 @@ var Requests = {
                 loader.fechar();
             }
         })
+    },
+    "slidePub": function () {
+        var restaurante = Funcoes.urlParam();
+        $.get(api + "/slidePub.php", { usuario: restaurante }).done(function (data) {
+            console.error(data);
+            var res = JSON.parse(data);
+            var imgSlide = [];
+            if (res.ok) {
+                (JSON.parse(res.slide)).forEach((element) => {
+                   imgSlide.push('<img src="'+(api)+'/img/'+(element)+'">');
+                });
+                localStorage.setItem("slide",JSON.stringify(imgSlide));
+                localStorage.setItem("pub",res.pub);
+            } else {
+               
+            }
+        })
     }
 }

@@ -1,4 +1,4 @@
-var corrida = false;
+
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();
@@ -16,7 +16,7 @@ const anima = () => {
     setInterval(function () {
         var itens = document.querySelectorAll('.hvr-bounce-out');
         itens.forEach(function (e) {
-            $(e).on("click",function () {
+            $(e).on("click", function () {
                 $(e).animate({ "opacity": "0" }, "fast");
                 $(e).animate({ "opacity": "1" }, "fast");
             })
@@ -52,12 +52,19 @@ const handleLocation = async () => {
                 var conta = localStorage.getItem("mesa");
 
                 if (conta) {
+                    
                     vaiTela("home");
                 }
+
+                
+
                 loader.abrir();
                 menu.fechar();
-                var slide = new debliwuislideimg($, ['<img src="pub.png" alt="">'], mostrarquantos = 1, pager = false, speed = 800, pause = 2000)
-                document.querySelector(".corpo").prepend(slide);
+
+                Requests.slidePub();
+                var slide = JSON.parse(localStorage.getItem("slide"));
+                document.querySelector(".corpo").prepend((new debliwuislideimg($, slide)));
+
                 setTimeout(function () {
                     Requests.entrar();
                     loader.fechar();
@@ -83,11 +90,12 @@ const handleLocation = async () => {
             }
 
             if (path == "/home") {
+                Requests.slidePub();
                 Requests.verProdutos();
                 loader.abrir();
                 menu.abrir();
-                var slide = new debliwuislideimg($, ['<img src="pub.png" alt="">'], mostrarquantos = 1, pager = false, speed = 800, pause = 2000)
-                document.querySelector(".corpo").prepend(slide);
+                var slide = JSON.parse(localStorage.getItem("slide"));
+                document.querySelector(".corpo").prepend((new debliwuislideimg($, slide)));
                 setTimeout(function () {
 
 

@@ -444,7 +444,7 @@ debliwui_slideimg.innerHTML = `
 
 class debliwuislideimg extends HTMLElement {
 
-    constructor($, imagens, mostrarquantos = 1, pager = true, speed = 800, pause = 2000) {
+    constructor($, imagens, mostrarquantos = 1, pager = false, speed = 800, pause = 2000) {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(debliwui_slideimg.content.cloneNode(true));

@@ -126,7 +126,7 @@ debliwui_menu.innerHTML = `
                 <span class="sair">Ativar notificações</span>
                 <div class="user">
                     <!-- <a href="/definicoes" class="go-definicoes"><img class="definicoes-user" src="assets/gear.svg" style="z-index:2"></a> -->
-                    <img src="pub.png" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:-0;text-shadow:0px 0px 2px 4px #000000;">
+                    <img src="" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:-0;text-shadow:0px 0px 2px 4px #000000;" class="pub">
                     <p style="z-index:2;font-weight:bold;font-color: #000000">Nome do cliente <br> MESA 2</p>
                 </div>
                 <ul>
@@ -219,9 +219,9 @@ handleLocation = async () => {
 
             if (path == "/home") {
                 loader.abrir();
+                var slide = JSON.parse(localStorage.getItem("slide"));
+                document.querySelector(".corpo").prepend((new debliwuislideimg($, slide)));
                 Requests.verProdutos();
-                var slide = new debliwuislideimg($, ['<img src="pub.png" alt="">'], mostrarquantos = 1, pager = false, speed = 800, pause = 2000)
-                document.querySelector(".corpo").prepend(slide);   
                 setTimeout(function () {
 
                     
@@ -256,6 +256,10 @@ handleLocation = async () => {
     connectedCallback() {
        var $ = this.jquery;
         var esse = this;
+
+        Requests.slidePub();
+        var pub = (localStorage.getItem("pub"));
+        esse.shadowRoot.querySelector('.pub').setAttribute("src",api+"/img/"+pub);
 
         var route = this.getAttribute('route');
         this.shadowRoot.querySelector('.aciona-menu').addEventListener("click", function () {
