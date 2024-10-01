@@ -3,7 +3,7 @@ var Requests = {
     "verProdutos": function () {
         var restaurante = localStorage.getItem("restaurante");
         $.get(api + "/verProdutos.php", { restaurante: restaurante }).done(function (data) {
-            console.log(data);
+            //console.log(data);
             var res = JSON.parse(data);
             if (res.ok) {
                 tabelaProdutos.setItem("produtos", res.payload);
@@ -25,7 +25,7 @@ var Requests = {
         localStorage.setItem("restaurante", restaurante);
         this.verProdutos();
         $.get(api + "/entrar.php", { mesa: num, restaurante: restaurante }).done(function (data) {
-            console.log(data);
+            //console.log(data);
             try {
                 var res = JSON.parse(data);
                 if (res.ok) {
@@ -33,7 +33,7 @@ var Requests = {
                     localStorage.setItem("restaurante", restaurante);
                     loader.fechar();
                 } else {
-                    console.error(hash);
+                    //console.error(hash);
                     localStorage.setItem("mesaindisponivel", num);
                     vaiTela("/mesaIndisponivel#" + restaurante);
                     loader.fechar();
@@ -83,7 +83,7 @@ var Requests = {
 
         loader.abrir();
         $.get(api + "/acederconta.php", { mesa: mesa, codigoconta: codigoconta, restaurante: restaurante }).done(function (data) {
-            console.log(data);
+            //console.log(data);
             var res = JSON.parse(data);
             if (res.ok) {
                 localStorage.setItem("conta", res.payload.idconta);
@@ -103,10 +103,10 @@ var Requests = {
             }
         })
     },
-
+    
     "reclamar": function () {
 
-    },
+    }, 
     "pullingPedidos": function () {
         var esse = this;
         setInterval(function () {
@@ -115,7 +115,7 @@ var Requests = {
             $.get(api + "/pullingPedido.php", { conta: conta, restaurante: restaurante }).done(function (data) {
 
 
-                console.log(data);
+                //console.log(data);
 
                 var contaatual = localStorage.getItem("contaatual");
                 var contanova = data;
@@ -149,8 +149,10 @@ var Requests = {
                         localStorage.removeItem("fechado");
                         localStorage.removeItem("reclamou");
                         tabelaCarrinho.clear();
+                        menu.fechar();
                         vaiTela("/mesas#" + restaurante);
                     }
+                    document.querySelector("title").innerHTML = res.restaurante;
                 } else {
                     loader.fechar();
                 }
@@ -166,7 +168,7 @@ var Requests = {
 
                 var zero = [];
                 tabelaCarrinho.iterate(function (valor, chave, iterationNumber) {
-                    console.log(valor, chave, iterationNumber);
+                    //console.log(valor, chave, iterationNumber);
                     //REVER ITEMNUM
                     valor.itemnum = Date.now();
                     //------
@@ -198,7 +200,7 @@ var Requests = {
             }, 1000)
         }).catch(function (err) {
 
-            console.log(err);
+            //console.log(err);
         });
     },
 
@@ -209,7 +211,7 @@ var Requests = {
         var pedidosAceites = 0;
         $.get(api + "/verConta.php", { conta: conta, restaurante: restaurante }).done(function (data) {
             var res = JSON.parse(data);
-            console.log(res);
+            //console.log(res);
             ((res.payload)).forEach(element => {
                 var itens = (element.itens);
                 var htmlItem = $("<div></div>");
@@ -235,11 +237,16 @@ var Requests = {
 
                         htmlItem.append(html);
                     });
-                    if (element.aceite) {
+                    var aceite = "";
+                    if (element.aceite == 1) {
                         totalConta += Number(element.total);
                         pedidosAceites += 1;
+                        aceite = "#0dcaf050";
+                    }else{
+                        aceite = "#77000050";
                     }
-                    var aceite = (element.aceite) ? "#0dcaf050" : "#77000050";
+                    
+                   
                     var aceiteLabel = (element.aceite) ? "Aceite" : "";
                     var pedido = $(`<div style="display:block;width:100%;padding:1%;border:1px solid #eaeaea;margin:20px 0;background:${aceite}">
                         <h3 style="float:right;font-size:15px;font-weight:bold;">${(element.total)}</h3>
@@ -272,7 +279,7 @@ var Requests = {
         }
 
         $.post(api + "/fazReclamacao.php", { telefone: telefone, email: email, detalhes: detalhes, nome: nome, restaurante: restaurante }).done(function (data) {
-            console.log(data);
+            //console.log(data);
             var res = JSON.parse(data);
             if (res.ok) {
                 localStorage.setItem("reclamou", "sim");
@@ -286,7 +293,7 @@ var Requests = {
     },
     "verMesas": function (res) {
         $.get(api + "/verMesas.php", { usuario: res }).done(function (data) {
-            console.error(data);
+            //console.error(data);
             var res = JSON.parse(data);
             if (res.ok) {
                 const hash = window.location.hash;
@@ -297,7 +304,7 @@ var Requests = {
 
                 $(".topo").html($uiTopo);
                 (res.payload).forEach((element) => {
-                    console.log(element);
+                    //console.log(element);
                     var vip = Number(element.vip) ? "VIP" : "";
                     if (Number(element.ocupada)) {
                         var el = $(`<div class="mesas">
@@ -328,7 +335,7 @@ var Requests = {
     "slidePub": function () {
         var restaurante = Funcoes.urlParam();
         $.get(api + "/slidePub.php", { usuario: restaurante }).done(function (data) {
-            console.error(data);
+            //console.error(data);
             var res = JSON.parse(data);
             var imgSlide = [];
             if (res.ok) {

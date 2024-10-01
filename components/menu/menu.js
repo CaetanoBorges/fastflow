@@ -80,13 +80,8 @@ debliwui_menu.innerHTML = `
         }
         .user{
             background-color:#9f0600;
-            width:90%;
-            height:25vh;
-            display:flex;
+            width:100%;
             align-items:baseline;
-            flex-direction:column;
-            justify-content: flex-end;
-            padding: 0 0 3vh 10%;
             color:white;
             position:relative;
 
@@ -126,8 +121,8 @@ debliwui_menu.innerHTML = `
                 <span class="sair">Ativar notificações</span>
                 <div class="user">
                     <!-- <a href="/definicoes" class="go-definicoes"><img class="definicoes-user" src="assets/gear.svg" style="z-index:2"></a> -->
-                    <img src="" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:-0;text-shadow:0px 0px 2px 4px #000000;" class="pub">
-                    <p style="z-index:2;font-weight:bold;font-color: #000000">Nome do cliente <br> MESA 2</p>
+                    <img src="" style="width:100%;z-index:-0;text-shadow:0px 0px 2px 4px #000000;" class="pub">
+                    <p style="position:absolute;top:1vh;left:10%;z-index:2;font-weight:bold;font-color: #000000">Nome do cliente <br> MESA 2</p>
                 </div>
                 <ul>
                     <a href="/home" class="home">
