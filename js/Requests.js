@@ -335,7 +335,7 @@ var Requests = {
     "slidePub": function () {
         var restaurante = Funcoes.urlParam();
         $.get(api + "/slidePub.php", { usuario: restaurante }).done(function (data) {
-            //console.error(data);
+            console.error(data);
             var res = JSON.parse(data);
             var imgSlide = [];
             if (res.ok) {
@@ -344,6 +344,7 @@ var Requests = {
                 });
                 localStorage.setItem("slide",JSON.stringify(imgSlide));
                 localStorage.setItem("pub",res.pub);
+                localStorage.setItem("logo",res.logo);
             } else {
                
             }
