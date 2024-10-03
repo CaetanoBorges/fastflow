@@ -34,7 +34,9 @@ const routes = {
     "/definicoes": "/pages/definicoes.html",
     "/categoria": "/pages/categoria.html",
     "/mesaIndisponivel": "/pages/mesaIndisponivel.html",
-    "/mesas": "/pages/mesas.html"
+    "/mesas": "/pages/mesas.html",
+    "/menu": "/pages/menu.html",
+    "/produtos": "/pages/produtos.html"
 }
 
 const handleLocation = async () => {
@@ -54,10 +56,14 @@ const handleLocation = async () => {
                 if (conta) {
                     
                     vaiTela("home");
+                    return;
                 }
-
-                
-
+                var query = (new URLSearchParams(window.location.search).toString().split("="));
+                console.info(query);
+                if(query[0] == "menu"){
+                    vaiTela("menu#"+hash.split("#")[1]);
+                    return;
+                }
                 loader.abrir();
                 menu.fechar();
 
@@ -103,6 +109,17 @@ const handleLocation = async () => {
                     loader.fechar();
                 }, 1000);
             }
+            if (path == "/menu") {
+                menu.fechar();
+                Requests.slidePub();
+                loader.abrir();
+                var slide = JSON.parse(localStorage.getItem("slide"));
+                document.querySelector(".corpo").prepend((new debliwuislideimg($, slide)));
+                setTimeout(function () {
+                    Requests.verMenu(hash.split("#")[1]);
+                    loader.fechar();
+                }, 1000);
+            }
             if (path == "/conta") {
                 loader.abrir();
 
@@ -119,6 +136,21 @@ const handleLocation = async () => {
                     if (hash) {
 
                         Funcoes.renderProduto(hash.split("#")[1]);
+
+                    }
+
+
+
+                    loader.fechar();
+                }, 1000);
+
+            }
+            if (path == "/produtos") {
+                loader.abrir();
+                setTimeout(function () {
+                    if (hash) {
+
+                        Funcoes.mostraProduto(hash.split("#")[1]);
 
                     }
 

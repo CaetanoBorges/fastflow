@@ -1,4 +1,33 @@
 var Funcoes = {
+    esse: this,
+    "mostraProduto": function (categoria) {
+        document.querySelector(".categoria").innerHTML = categoria;
+        tabelaProdutos.getItem("produtos").then(function (dados) {
+            console.info(api);
+            (dados[categoria]).forEach(element => {
+                console.info(element);
+                var item = $(`<div class="card  mb-4" style="position: relative;border-radius: 0;">
+                        <div class="card-body" style="padding:5px;">
+                            <div class="row d-flex justify-content-between align-items-center">
+                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                <img src="${(api)}/img/${(element.img)}" style="width:100px">
+                                <p class="lead fw-small mb-2" style="float:right;font-size:13px">${(element.nome)}</p>
+                            </div>
+                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                <h5 class="mb-0 fw-normal" style="position:absolute;bottom:45px;right:5px;">${(element.preco)} <span style="font-weight:lighter">AOA</span></h5>
+                            </div>
+                            </div>
+                        </div>
+                        </div>             
+                        `);
+
+                document.querySelector("section").append(item[0]);
+
+            });
+        })
+
+    },
+
 
 
     "renderProduto": function (categoria) {
@@ -217,9 +246,11 @@ var Funcoes = {
             }
         }
         return para;
+    },
+
+    "verApenasMenu": function(){
+        var para = this.urlParam();
+        vaiTela("/menu#"+para);
     }
-
-
-
 
 }

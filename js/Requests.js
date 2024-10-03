@@ -1,5 +1,20 @@
 var Requests = {
     esse: this,
+    "verMenu": function (restaurante) {
+        $.get(api + "/verProdutos.php", { restaurante: restaurante }).done(function (data) {
+            //console.log(data);
+            var res = JSON.parse(data);
+            if (res.ok) {
+                tabelaProdutos.setItem("produtos", res.payload);
+                var ui = ``;
+                var categorias = Object.keys(res.payload);
+                categorias.forEach(function (el) {
+                    ui += `<button class="btn btn-info btn-lg form-control botaocard hvr-bounce-out" onclick='vaiTela("/produtos#${el}")'>${el}</button>`;
+                });
+                $("#render").html(ui);
+            }
+        })
+    },
     "verProdutos": function () {
         var restaurante = localStorage.getItem("restaurante");
         $.get(api + "/verProdutos.php", { restaurante: restaurante }).done(function (data) {
