@@ -101,7 +101,9 @@
      $(document).ready(function(){
             var notificacao = Notification.permission;
             if(notificacao == "granted"){
-                $(menu.shadowRoot.querySelector(".sair")).html("Notificações ativas").css({color:"#0022ff"});
+                $(menu.shadowRoot.querySelector(".sair")).html("Notificações ativas").css({color:"#0022ff"}).click(function(){
+                    permissaoNotificacao();
+                });
             }else{
                 $(menu.shadowRoot.querySelector(".sair")).html("Ativar notificações").css({color:"#990000"}).click(function(){
                     permissaoNotificacao();

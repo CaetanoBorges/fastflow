@@ -73,6 +73,8 @@ var Requests = {
                 loader.fechar();
             } else {
                 loader.fechar();
+                notificacao.sms(res.payload,1);
+                vaiTela("/mesas#" + restaurante);
             }
         })
     }, "acederConta": function () {

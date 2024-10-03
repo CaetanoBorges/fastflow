@@ -12,7 +12,8 @@ if ('serviceWorker' in navigator) {
         });
 
 }
-
+var logo = localStorage.getItem("logo");
+var pathLogo = api + "img/" + logo;
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevents the default mini-infobar or install dialog from appearing on mobile
     e.preventDefault();
@@ -24,7 +25,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 async function instalar() {
     if (!deferredPrompt) {
         notificacao("A aplicação já está instalada");
-        swRegistration.showNotification("A aplicação já está instalada", { body: "Muito bem", icon: "_icones/ico.png" });
+        swRegistration.showNotification("A aplicação já está instalada", { body: "Muito bem", icon: pathLogo });
         return;
     }
     deferredPrompt.prompt();
@@ -36,10 +37,10 @@ async function instalar() {
     // Act on the user's choice
     if (outcome.outcome === 'accepted') {
         notificacao("Instalação bem sucedida!");
-        swRegistration.showNotification("Instalação bem sucedida!", { body: "Muito bem", icon: "_icones/ico.png" });
+        swRegistration.showNotification("Instalação bem sucedida!", { body: "Muito bem", icon: pathLogo });
     } else if (outcome.outcome === 'dismissed') {
         notificacao("Precisa instalar a aplicação para melhor uso.");
-        swRegistration.showNotification("Precisa instalar a aplicação para melhor uso.", { body: "oOh", icon: "_icones/ico.png" });
+        swRegistration.showNotification("Precisa instalar a aplicação para melhor uso.", { body: "oOh", icon: pathLogo });
     }
 }
 
@@ -47,7 +48,7 @@ function permissaoNotificacao() {
     var res = Notification.requestPermission();
     res.then(function (e) {
         if (e == "granted") {
-            swRegistration.showNotification("Já tem as notificações ativadas", { body: "Muito bem", icon: "_icones/ico.png" });
+            swRegistration.showNotification("Já tem as notificações ativadas", { body: "Muito bem", icon: pathLogo });
             $(menu.shadowRoot.querySelector(".sair")).html("Notificações ativas").css({color:"#0022ff"});
             var not = localStorage.getItem("notificacao");
             if(not){
