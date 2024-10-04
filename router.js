@@ -1,3 +1,24 @@
+const uiEntrar = `
+    <br><br><br>
+    <h3>POR FAVOR<br>INSIRA UM NOME</h3><br>
+    <br>
+    <input type="text" placeholder="NOME" class="form-control" id="nome-mesa"><br>
+    <button class="form-control btn btn-outline-danger hvr-bounce-out" style="border-radius: 0;" onclick='Funcoes.verApenasMenu()'>VER APENAS O MENU</button>
+    <br><br><br><br>
+    <button class="form-control btn btn-danger botao hvr-bounce-out" onclick="Requests.usarMesa()">USAR MESA</button>
+`;
+const uiMenu = `
+   <div id="render">
+
+        
+    </div>
+`;
+const uiSimples = `
+   <div id="render">
+
+        <h1>AbrirCamara</h1>
+    </div>
+`;
 
 const route = (event) => {
     event = event || window.event;
@@ -51,6 +72,7 @@ const handleLocation = async () => {
             document.querySelector(".corpo").innerHTML = ui;
 
             if (path == "/") {
+                menu.fechar();
                 var conta = localStorage.getItem("mesa");
 
                 if (conta) {
@@ -59,22 +81,39 @@ const handleLocation = async () => {
                     return;
                 }
                 var query = (new URLSearchParams(window.location.search).toString().split("="));
-                console.info(query);
-                if(query[0] == "menu"){
-                    vaiTela("menu#"+hash.split("#")[1]);
+                console.info(hash.split("#")[1]);
+                //if(query[0] == "menu"){
+                    //vaiTela("menu#"+hash.split("#")[1]);
+                    //return;
+                //}
+                if(hash.split("#")[1]){
+                    document.querySelector(".corpo").innerHTML = uiEntrar;
+                    loader.abrir();
+                    Requests.slidePub();
+                    var slide = JSON.parse(localStorage.getItem("slide"));
+                    document.querySelector(".corpo").prepend((new debliwuislideimg($, slide)));
+
+                    setTimeout(function () {
+                        Requests.entrar();
+                        loader.fechar();
+                    }, 1000);
                     return;
                 }
-                loader.abrir();
-                menu.fechar();
-
-                Requests.slidePub();
-                var slide = JSON.parse(localStorage.getItem("slide"));
-                document.querySelector(".corpo").prepend((new debliwuislideimg($, slide)));
-
-                setTimeout(function () {
-                    Requests.entrar();
-                    loader.fechar();
-                }, 1000);
+                
+                if((new URLSearchParams(window.location.search).toString().split("=")[0])){
+                    document.querySelector(".corpo").innerHTML = uiMenu;
+                    Requests.slidePub();
+                    loader.abrir();
+                    var slide = JSON.parse(localStorage.getItem("slide"));
+                    document.querySelector(".corpo").prepend((new debliwuislideimg($, slide)));
+                    setTimeout(function () {
+                        Requests.verMenu((new URLSearchParams(window.location.search).toString().split("=")[0]));
+                        loader.fechar();
+                    }, 1000);
+                    return;
+                }else{
+                    document.querySelector(".corpo").innerHTML = uiSimples;
+                }
             }
             if (path == "/reclamacao") {
                 loader.abrir();

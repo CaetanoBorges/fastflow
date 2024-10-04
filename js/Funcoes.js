@@ -249,8 +249,9 @@ var Funcoes = {
     },
 
     "verApenasMenu": function(){
+        loader.abrir();
         var para = this.urlParam();
-        vaiTela("/menu#"+para);
+        location.href = `?${para}`;
     }
 
 }
